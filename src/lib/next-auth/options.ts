@@ -1,10 +1,9 @@
-import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import GitHubProvider from 'next-auth/providers/github';
+import { PrismaAdapter } from '@next-auth/prisma-adapter';
+import type { NextAuthOptions } from 'next-auth';
 
-import { NextAuthOptions } from 'next-auth';
 import { GITHUB_ID, GITHUB_SECRET, NEXTAUTH_SECRET } from '@/config/constants';
-
-import prisma from './prisma';
+import prisma from '@/lib/prisma';
 
 export const nextAuthOptions: NextAuthOptions = {
   debug: true,

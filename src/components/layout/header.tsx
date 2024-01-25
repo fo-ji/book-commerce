@@ -1,7 +1,11 @@
+import { nextAuthOptions } from '@/lib/next-auth/options';
+import { getServerSession } from 'next-auth';
 import Image from 'next/image';
 import Link from 'next/link';
 
-export const Header = () => {
+export const Header = async () => {
+  const session = await getServerSession(nextAuthOptions);
+
   return (
     <header className="bg-slate-600 text-gray-100 shadow-lg">
       <nav className="flex items-center justify-between p-4">
@@ -26,7 +30,8 @@ export const Header = () => {
               width={50}
               height={50}
               alt="profile_icon"
-              src={'/default_icon.png'}
+              src={session?.user?.image || '/default_icon.png'}
+              className="rounded-full"
             />
           </Link>
         </div>

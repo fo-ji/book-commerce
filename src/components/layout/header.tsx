@@ -1,10 +1,12 @@
-import { nextAuthOptions } from '@/lib/next-auth/options';
-import { getServerSession } from 'next-auth';
+'use client';
+
+import { LogoutButton } from '@/features/auth';
+import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
 
-export const Header = async () => {
-  const session = await getServerSession(nextAuthOptions);
+export const Header = () => {
+  const { data: session } = useSession();
 
   return (
     <header className="bg-slate-600 text-gray-100 shadow-lg">
@@ -19,12 +21,24 @@ export const Header = async () => {
           >
             ホーム
           </Link>
-          <Link
-            href="/login"
-            className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-          >
-            ログイン
-          </Link>
+          {session?.user ? (
+            <>
+              <Link
+                href="/profile"
+                className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+              >
+                プロフィール
+              </Link>
+              <LogoutButton />
+            </>
+          ) : (
+            <Link
+              href="/login"
+              className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+            >
+              ログイン
+            </Link>
+          )}
           <Link href={`/profile`}>
             <Image
               width={50}

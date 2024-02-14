@@ -1,6 +1,7 @@
 'use client';
 
 import { useDisclosure } from '@/hooks/use-disclosure';
+import { checkout } from '@/lib/stripe';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -42,13 +43,16 @@ export const Book = ({ title, thumbnail, price }: BookProps) => {
           <div className="bg-white p-8 rounded-lg">
             <h3 className="text-xl mb-4">本を購入しますか？</h3>
             <button
-              onClick={() => {
+              onClick={async () => {
                 if (!session?.user) {
                   close();
-                  // todo: ログインページへリダイレクト
                   router.push('/login');
                 } else {
-                  // todo: stripeで決済する
+                  const { checkout_url } = await checkout({
+                    title,
+                    price,
+                  });
+                  router.push(checkout_url);
                 }
               }}
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-4"

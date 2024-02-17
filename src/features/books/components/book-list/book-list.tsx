@@ -11,6 +11,7 @@ export const BookList = ({ books }: BookListProps) => {
       {books.map((book) => (
         <Book
           key={book.id}
+          id={book.id}
           title={book.title}
           thumbnail={book.thumbnail.url}
           price={book.price}

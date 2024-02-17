@@ -1,5 +1,5 @@
 export type BookType = {
-  id: number;
+  id: string;
   title: string;
   content: string;
   price: number;

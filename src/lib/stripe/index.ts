@@ -1,11 +1,13 @@
 import { API_URL } from '@/config/constants';
 
 type CheckoutProps = {
+  id: string;
   title: string;
   price: number;
+  userId: string;
 };
 
-export const checkout = async ({ title, price }: CheckoutProps) => {
+export const checkout = async ({ id, title, price, userId }: CheckoutProps) => {
   try {
     const res = await fetch(`${API_URL}/checkout`, {
       method: 'POST',
@@ -13,8 +15,10 @@ export const checkout = async ({ title, price }: CheckoutProps) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
+        id,
         title,
         price,
+        userId,
       }),
     });
     return await res.json();

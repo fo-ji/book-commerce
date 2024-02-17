@@ -7,12 +7,13 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
 type BookProps = {
+  id: string;
   title: string;
   thumbnail: string;
   price: number;
 };
 
-export const Book = ({ title, thumbnail, price }: BookProps) => {
+export const Book = ({ id, title, thumbnail, price }: BookProps) => {
   const { isOpen, open, close } = useDisclosure();
   const { data: session } = useSession();
   const router = useRouter();
@@ -48,11 +49,17 @@ export const Book = ({ title, thumbnail, price }: BookProps) => {
                   close();
                   router.push('/login');
                 } else {
-                  const { checkout_url } = await checkout({
-                    title,
-                    price,
-                  });
-                  router.push(checkout_url);
+                  try {
+                    const { checkout_url } = await checkout({
+                      title,
+                      price,
+                      id,
+                      userId: (session.user as any).id,
+                    });
+                    router.push(checkout_url);
+                  } catch (error) {
+                    console.log({ error });
+                  }
                 }
               }}
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-4"

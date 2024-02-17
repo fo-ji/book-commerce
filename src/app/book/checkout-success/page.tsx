@@ -1,4 +1,18 @@
-export default function CheckoutSuccessPage() {
+import { checkoutSuccess } from '@/features/books';
+
+type CheckoutSuccessPageProps = {
+  searchParams: {
+    session_id: string;
+  };
+};
+
+export default async function CheckoutSuccessPage({
+  searchParams,
+}: CheckoutSuccessPageProps) {
+  const res = await checkoutSuccess({ sessionId: searchParams.session_id });
+  const result = await res.json();
+  console.log({ result });
+
   return (
     <div className="flex items-center justify-center mt-20">
       <div className="bg-white p-6 rounded-lg shadow-lg">
